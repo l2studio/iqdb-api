@@ -5,8 +5,8 @@ import tunnel from 'tunnel'
 import cheerio from 'cheerio'
 import got from 'got'
 
-const debug = require('debug')('lgou2w:iqdb-api')
-const isDebug = typeof process.env.DEBUG !== 'undefined'
+// const debug = require('debug')('lgou2w:iqdb-api')
+// const isDebug = typeof process.env.DEBUG !== 'undefined'
 
 const Websites = {
   www: 'https://iqdb.org',
