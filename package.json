@@ -1,0 +1,46 @@
+{
+  "name": "@l2studio/iqdb-api",
+  "version": "0.1.0",
+  "description": "A library for iqdb.org image search api",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": "https://github.com/l2studio/iqdb-api.git",
+  "author": "lgou2w <lgou2w@hotmail.com>",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=10.0"
+  },
+  "scripts": {
+    "clean": "rimraf lib coverage",
+    "build": "npm run clean && tsc",
+    "test": "cross-env DEBUG='lgou2w:*' ts-node -T -P tsconfig.json test/index.ts",
+    "lint": "eslint --ext .js,.ts,.tsx --ignore-path .gitignore .",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/l2studio"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "debug": "^4.3.1",
+    "got": "^11.8.2",
+    "tunnel": "^0.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.45",
+    "@types/tunnel": "^0.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.26.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
+}
