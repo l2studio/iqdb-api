@@ -124,7 +124,7 @@ function pickImageProperties (alt: string): Result['properties'] {
     const value = properties[key]
     value
       ? (!Array.isArray(value) ? (properties[key] = [value]) : value).push(item)
-      : properties[key] = item
+      : properties[key] = key === 'score' ? parseInt(item) : item
   }
   return properties
 }
