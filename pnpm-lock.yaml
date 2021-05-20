@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@types/cheerio': ^0.22.28
-  '@types/node': ^14.14.45
+  '@types/node': ^14.17.0
   '@types/tunnel': ^0.0.1
   '@typescript-eslint/eslint-plugin': ^4.24.0
   '@typescript-eslint/parser': ^4.24.0
@@ -30,7 +30,7 @@ dependencies:
 
 devDependencies:
   '@types/cheerio': 0.22.28
-  '@types/node': 14.14.45
+  '@types/node': 14.17.0
   '@types/tunnel': 0.0.1
   '@typescript-eslint/eslint-plugin': 4.24.0_59c9e933fd1a489015de5df6809ac2f2
   '@typescript-eslint/parser': 4.24.0_eslint@7.26.0+typescript@4.2.4
@@ -119,14 +119,14 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.0
       '@types/keyv': 3.1.1
-      '@types/node': 14.14.45
+      '@types/node': 14.17.0
       '@types/responselike': 1.0.0
     dev: false
 
   /@types/cheerio/0.22.28:
     resolution: {integrity: sha512-ehUMGSW5IeDxJjbru4awKYMlKGmo1wSSGUVqXtYwlgmUM8X1a0PZttEIm6yEY7vHsY/hh6iPnklF213G0UColw==}
     dependencies:
-      '@types/node': 14.14.45
+      '@types/node': 14.17.0
     dev: true
 
   /@types/http-cache-semantics/4.0.0:
@@ -144,22 +144,22 @@ packages:
   /@types/keyv/3.1.1:
     resolution: {integrity: sha512-MPtoySlAZQ37VoLaPcTHCu1RWJ4llDkULYZIzOYxlhxBqYPB0RsRlmMU0R6tahtFe27mIdkHV+551ZWV4PLmVw==}
     dependencies:
-      '@types/node': 14.14.45
+      '@types/node': 14.17.0
     dev: false
 
-  /@types/node/14.14.45:
-    resolution: {integrity: sha512-DssMqTV9UnnoxDWu959sDLZzfvqCF0qDNRjaWeYSui9xkFe61kKo4l1TWNTQONpuXEm+gLMRvdlzvNHBamzmEw==}
+  /@types/node/14.17.0:
+    resolution: {integrity: sha512-w8VZUN/f7SSbvVReb9SWp6cJFevxb4/nkG65yLAya//98WgocKm5PLDAtSs5CtJJJM+kHmJjO/6mmYW4MHShZA==}
 
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 14.14.45
+      '@types/node': 14.17.0
     dev: false
 
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 14.14.45
+      '@types/node': 14.17.0
     dev: true
 
   /@typescript-eslint/eslint-plugin/4.24.0_59c9e933fd1a489015de5df6809ac2f2:
