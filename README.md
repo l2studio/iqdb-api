@@ -2,6 +2,14 @@
 
 A library for iqdb.org image search api
 
+## Install
+
+```shell
+npm install --save @l2studio/iqdb-api
+# or
+pnpm i @l2studio/iqdb-api
+```
+
 ## API
 
 TODO
