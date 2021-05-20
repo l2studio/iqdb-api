@@ -141,7 +141,7 @@ async function parseResult (response: Promise<string>, opts: Options): Promise<R
     }
   }
 
-  const url = Websites[opts.website ? opts.website.id : 'www']
+  const iqdb = Websites[opts.website ? opts.website.id : 'www']
   let results = $('div#pages').children('div').map((_, page) => {
     const rows = $('tr', page)
     const head = $(rows[0]).text().trim().toLowerCase()
@@ -150,7 +150,10 @@ async function parseResult (response: Promise<string>, opts: Options): Promise<R
 
     const link = $('a', rows[1])
     const image = $('img', link)
-    const fixedImageUrl = image.attr('src')!.charAt(0) === '/' ? url + image.attr('src')! : image.attr('src')!
+    const sourceUrl = $(link).attr('href')!
+    const imageUrl = image.attr('src')!
+    const fixedSourceUrl = sourceUrl.charAt(0) === '/' && sourceUrl.charAt(1) === '/' ? 'http:' + sourceUrl : sourceUrl // Always use http to ensure validity
+    const fixedImageUrl = imageUrl.charAt(0) === '/' ? iqdb + imageUrl : imageUrl // fixed iqdb image url
     const sources = $(rows[2]).text().split(' ')
     const dimensionAndType = $(rows[3]).text().split(' ')
     const dimension = dimensionAndType[0].split('×')
@@ -158,7 +161,7 @@ async function parseResult (response: Promise<string>, opts: Options): Promise<R
     const properties = pickImageProperties(image.attr('alt')!)
     return <Result> {
       head,
-      url: $(link).attr('href'),
+      url: fixedSourceUrl,
       image: fixedImageUrl,
       sources,
       width: parseInt(dimension[0]),
