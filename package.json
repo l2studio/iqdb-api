@@ -20,6 +20,14 @@
   "files": [
     "lib"
   ],
+  "keywords": [
+    "l2studio",
+    "lgou2w",
+    "iqdb-api",
+    "iqdb-client",
+    "iqdb",
+    "image-search"
+  ],
   "dependencies": {
     "cheerio": "^1.0.0-rc.9",
     "debug": "^4.3.1",
