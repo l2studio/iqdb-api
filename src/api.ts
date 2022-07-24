@@ -69,7 +69,7 @@ function requestSearch (input: SearchInput, options?: SearchOptions): Promise<st
   if (options?.website?.services && Array.isArray(options?.website?.services)) {
     for (const service of options.website.services) {
       const id = ServiceIdMappings[service]
-      id && formData.append('services[]', id)
+      id && formData.append('service[]', id)
     }
   }
 
@@ -96,7 +96,7 @@ function handleSearch (response: string, options?: SearchOptions): SearchResult[
     throw new Error(error)
   }
 
-  const results = parseResults($, options?.pickMoreResults)
+  const results = parseResults($, options?.pickOtherResults)
   // if (options?.giveMoreResults) {
   //   const giveMoreResultsHref = parseGiveMoreResultsHref($)
   //   TODO: implement
@@ -111,13 +111,13 @@ function parseError ($: cheerio.Root): string | undefined {
   }
 }
 
-function parseResults ($: cheerio.Root, pickMoreResults?: boolean): SearchResult[] {
+function parseResults ($: cheerio.Root, pickOtherResults?: boolean): SearchResult[] {
   let results = $('body div#pages')
     .children()
     .map((_, $pageEl) => parseResultsPage($, $pageEl))
     .get() as SearchResult[]
 
-  const $moreEl = pickMoreResults === true ? $('body div#more1') : undefined
+  const $moreEl = pickOtherResults ? $('body div#more1') : undefined
   if ($moreEl && $moreEl.length > 0) {
     const moreResults = $($moreEl).find('div.pages')
       .children()

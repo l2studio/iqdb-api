@@ -44,7 +44,7 @@ export interface SearchOptions {
   })
   filename?: string
   ignoreColors?: boolean
-  pickMoreResults?: boolean
+  pickOtherResults?: boolean
   // giveMoreResults?: boolean
   requestOptions?: OptionsOfTextResponseBody
 }
