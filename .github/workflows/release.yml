@@ -19,7 +19,6 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
-        id: pnpm-install
         with:
           version: 7
           run_install: false
@@ -53,6 +52,12 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
       - name: Setup pnpm cache
         uses: actions/cache@v3
         with:
@@ -80,6 +85,12 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
       - name: Setup pnpm cache
         uses: actions/cache@v3
         with:
@@ -105,6 +116,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
 
       - name: Setup pnpm cache
         uses: actions/cache@v3
