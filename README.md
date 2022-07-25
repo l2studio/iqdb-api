@@ -98,7 +98,7 @@ export interface SearchResult {
     service: Service
     // Raw href: //danbooru.donmai.us/posts/foo
     href: string
-    // Fixed href: http://danbooru.donmai.us/posts/3783221
+    // Fixed href: http://danbooru.donmai.us/posts/foo
     // Fixed always use http!
     fixedHref: string
   }>
