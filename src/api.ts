@@ -28,7 +28,7 @@ const ServiceIdMappings: Record<Service, number> = {
   [Service.Yandere]: 3,
   [Service.Gelbooru]: 4,
   [Service.SankakuChannel]: 5,
-  [Service.E_Shuushuu]: 6,
+  [Service.EShuushuu]: 6,
   [Service.Zerochan]: 11,
   [Service.AnimePictures]: 13,
   [Service.ThreeDBooru]: 7,

@@ -10,7 +10,7 @@ export enum Service {
   Yandere = 'Yande.re',
   Gelbooru = 'Gelbooru',
   SankakuChannel = 'Sankaku Channel',
-  E_Shuushuu = 'e-shuushuu',
+  EShuushuu = 'e-shuushuu',
   Zerochan = 'Zerochan',
   AnimePictures = 'Anime-Pictures',
   // 3d.iqdb.org
@@ -24,7 +24,7 @@ type RootWebsiteService =
   | Service.Yandere
   | Service.Gelbooru
   | Service.SankakuChannel
-  | Service.E_Shuushuu
+  | Service.EShuushuu
   | Service.Zerochan
   | Service.AnimePictures
 
