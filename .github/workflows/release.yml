@@ -6,46 +6,88 @@ on:
       - "**"
 
 jobs:
-  build:
+  prepare:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js environment ${{ matrix.node-version }}
+      - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
 
-      - name: Setup PNPM
+      - name: Install pnpm
         uses: pnpm/action-setup@v2
+        id: pnpm-install
         with:
-          version: 6.4.0
-          run_install: true
+          version: 7
+          run_install: false
 
-      - name: ESLint check
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "::set-output name=value::$(pnpm store path)"
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.value }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+    outputs:
+      pnpm-cache-dir: ${{ steps.pnpm-cache.outputs.value }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ needs.prepare.outputs.pnpm-cache-dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint
         run: pnpm lint
 
       - name: Build
         run: pnpm build
 
   publish-npm:
-    needs: build
+    needs: [prepare, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
         with:
-          version: 6.4.0
-          run_install: true
+          node-version: 16
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ needs.prepare.outputs.pnpm-cache-dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Publish to NPM
         run: npm publish --access public
@@ -53,21 +95,25 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_NPM_PUBLISH }}
 
   publish-github:
-    needs: build
+    needs: [prepare, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-          scope: '@l2studio'
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
         with:
-          version: 6.4.0
-          run_install: true
+          node-version: 16
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ needs.prepare.outputs.pnpm-cache-dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+        run: pnpm install
 
       - run: echo registry=https://npm.pkg.github.com/l2studio >> .npmrc
       - name: Publish to GitHub
@@ -80,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # Fetch all history
           fetch-depth: 0
