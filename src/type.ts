@@ -45,7 +45,6 @@ export interface SearchOptions {
   filename?: string
   ignoreColors?: boolean
   pickOtherResults?: boolean
-  // giveMoreResults?: boolean
   requestOptions?: OptionsOfTextResponseBody
 }
 
@@ -68,4 +67,18 @@ export interface SearchResult {
   type: 'safe' | 'ero' | 'explicit' | 'unrated'
   similarity: number
   similarityPercentage: number
+}
+
+export interface SearchResponse {
+  searched: number
+  timeSeconds: number
+  timeMilliseconds: number
+  thumbnailSrc: string
+  otherSearchHrefs: {
+    saucenao: string
+    ascii2d: string
+    google: string
+    tineye: string
+  }
+  results: SearchResult[]
 }

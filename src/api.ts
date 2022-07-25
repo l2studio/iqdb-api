@@ -1,4 +1,4 @@
-import { Website, Service, SearchInput, SearchOptions, SearchResult } from './type'
+import { Website, Service, SearchInput, SearchOptions, SearchResult, SearchResponse } from './type'
 import { Readable } from 'stream'
 import got, { OptionsOfTextResponseBody } from 'got'
 import FormData from 'form-data'
@@ -7,7 +7,7 @@ import crypto from 'crypto'
 
 /* Export API */
 
-export async function search (input: SearchInput, options?: SearchOptions): Promise<SearchResult[]> {
+export async function search (input: SearchInput, options?: SearchOptions): Promise<SearchResponse> {
   const response = await requestSearch(input, options)
   return handleSearch(response, options)
 }
@@ -89,25 +89,58 @@ function requestSearch (input: SearchInput, options?: SearchOptions): Promise<st
   return got(requestOptions).text()
 }
 
-function handleSearch (response: string, options?: SearchOptions): SearchResult[] {
+export function handleSearch (response: string, options?: SearchOptions): SearchResponse {
   const $ = cheerio.load(response)
   const error = parseError($)
   if (error) {
     throw new Error(error)
   }
 
+  const metadata = parseMetadata($)
   const results = parseResults($, options?.pickOtherResults)
-  // if (options?.giveMoreResults) {
-  //   const giveMoreResultsHref = parseGiveMoreResultsHref($)
-  //   TODO: implement
-  // }
-  return results
+  return {
+    ...metadata,
+    results
+  }
 }
 
 function parseError ($: cheerio.Root): string | undefined {
   const $errEl = $('body .err')
   if ($errEl?.length > 0) {
-    return $errEl.text()
+    return $errEl.first().text()
+  }
+}
+
+function parseMetadata ($: cheerio.Root) {
+  const $searchedEls = $('body p')
+  const $searchedEl = $searchedEls.map((_, $el) => {
+    const text = $($el).text().toLowerCase()
+    if (text.startsWith('searched')) {
+      return $el
+    } return undefined
+  })
+
+  const searchedText = $searchedEl.text()
+  const searchedTextParts = searchedText.split(' ')
+  const searched = parseInt(searchedTextParts[1].replace(/,/g, '').trim())
+  const timeSeconds = parseFloat(searchedTextParts[4].trim())
+  const timeMilliseconds = timeSeconds * 1000
+
+  const $yourImageEl = $('body div#pages').children().first().find('img')
+  const yourImageSrc = $yourImageEl.attr('src') as string
+  const fixedYourImageSrc = fixedHref(yourImageSrc)
+
+  return {
+    searched,
+    timeSeconds,
+    timeMilliseconds,
+    thumbnailSrc: fixedYourImageSrc,
+    otherSearchHrefs: {
+      saucenao: `https://saucenao.com/search.php?&url=${fixedYourImageSrc}`,
+      ascii2d: `https://ascii2d.net/search/url/${fixedYourImageSrc}`,
+      google: `https://www.google.com/searchbyimage?image_url=${fixedYourImageSrc}&safe=off`,
+      tineye: `https://tineye.com/search?url=${fixedYourImageSrc}`
+    }
   }
 }
 
@@ -242,5 +275,3 @@ function fixedTags (tags?: string | string[]): string[] | undefined {
     }
   } return newTags
 }
-
-// function parseGiveMoreResultsHref ($: cheerio.Root): string {}
