@@ -8,24 +8,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js environment ${{ matrix.node-version }}
+      - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
 
-      - name: Setup PNPM
+      - name: Install pnpm
         uses: pnpm/action-setup@v2
+        id: pnpm-install
         with:
-          version: 6.4.0
+          version: 7
           run_install: true
 
-      - name: ESLint check
+      - name: Lint
         run: pnpm lint
 
       - name: Build
