@@ -12,7 +12,8 @@ export async function search (input: SearchInput, options?: SearchOptions): Prom
   return handleSearch(response, options)
 }
 
-export async function status () { return undefined }
+// TODO
+// export async function status () { return undefined }
 
 /* Utils */
 
@@ -89,7 +90,7 @@ function requestSearch (input: SearchInput, options?: SearchOptions): Promise<st
   return got(requestOptions).text()
 }
 
-export function handleSearch (response: string, options?: SearchOptions): SearchResponse {
+function handleSearch (response: string, options?: SearchOptions): SearchResponse {
   const $ = cheerio.load(response)
   const error = parseError($)
   if (error) {
