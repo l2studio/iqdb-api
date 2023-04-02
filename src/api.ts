@@ -139,7 +139,7 @@ function parseMetadata ($: cheerio.Root) {
     otherSearchHrefs: {
       saucenao: `https://saucenao.com/search.php?&url=${fixedYourImageSrc}`,
       ascii2d: `https://ascii2d.net/search/url/${fixedYourImageSrc}`,
-      google: `https://www.google.com/searchbyimage?image_url=${fixedYourImageSrc}&safe=off`,
+      google: `https://lens.google.com/uploadbyurl?url=${fixedYourImageSrc}`,
       tineye: `https://tineye.com/search?url=${fixedYourImageSrc}`
     }
   }
