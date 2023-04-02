@@ -207,11 +207,17 @@ function parseResultsPage ($: cheerio.Root, $pageEl: cheerio.Element): SearchRes
   ].concat(otherSources)
 
   const $dimensionEl = $($rows[$matchEl.length + 2]).find('td')
-  const dimensionTexts = $dimensionEl.text().trim().split(' ')
-  const dimension = dimensionTexts[0].replace(/[^\d]/g, '-').split('-')
-  const width = parseInt(dimension[0])
-  const height = parseInt(dimension[1])
-  const type = dimensionTexts[1].substring(1, dimensionTexts[1].length - 1).toLowerCase()
+  const dimensionOrTypeText = $dimensionEl.text().trim()
+  // See: https://github.com/l2studio/iqdb-api/issues/3
+  const dimensionOrTypeMatch = /^(\d+).?(\d+)\s?\[(\w+)\]|\[(\w+)\]$/.exec(dimensionOrTypeText)
+  let width = 0
+  let height = 0
+  let type: SearchResult['type'] = 'unrated'
+  if (dimensionOrTypeMatch) {
+    width = dimensionOrTypeMatch[1] ? parseInt(dimensionOrTypeMatch[1]) : 0
+    height = dimensionOrTypeMatch[2] ? parseInt(dimensionOrTypeMatch[2]) : 0
+    type = (dimensionOrTypeMatch[3] || dimensionOrTypeMatch[4]).toLowerCase() as SearchResult['type']
+  }
 
   const $similarityEl = $($rows[$matchEl.length + 3]).find('td')
   const similarityTexts = $similarityEl.text().trim().split(' ')
